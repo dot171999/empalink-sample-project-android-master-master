@@ -79,7 +79,7 @@ public class SensorService extends Service implements EmpaDataDelegate, EmpaStat
         SharedPreferences preferences = getSharedPreferences("SaveData",Context.MODE_PRIVATE);
         String name = preferences.getString("key", "defaultValue");
         ipAddress = name;
-        Log.e("IP from SP",name);
+        Log.e("IP from SP",name+"  $$$$$$$$$");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
             startMyOwnForeground();
@@ -162,7 +162,20 @@ public class SensorService extends Service implements EmpaDataDelegate, EmpaStat
         timerTask = new TimerTask() {
             public void run() {
                 Log.i("in timer", "in timer ++++  "+ (counter++));
-                sendWorkPostRequest2();
+                //sendWorkPostRequest2();
+
+                JSONObject jsonBody = new JSONObject();
+                Log.e("event","sending event");
+                try {
+                    jsonBody.put("event", "BlinkDetection-Sebastian");
+                    jsonBody.put("value", "hello");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String requestBody = jsonBody.toString();
+                Client.webSocketClient.send(requestBody);
+
                 updateLabel(Bvp, Gsr, Ibi, Temp, Bvp1, Gsr1, Ibi1, Temp1);
             }
         };

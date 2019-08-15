@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity{
         mSensorService = new SensorService(getCtx());
         mServiceIntent = new Intent(getCtx(), mSensorService.getClass());
 
+
+
         editText =findViewById(R.id.editText);
 
         Button button=findViewById(R.id.Button);
@@ -91,6 +93,9 @@ public class MainActivity extends AppCompatActivity{
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putString("key",editText.getText().toString());
                 editor.apply();
+
+                Thread thread=new Thread(new Client(MainActivity.this,editText.getText().toString()));
+                thread.start();
 
                 startNewActivity(MainActivity.this,"com.tzutalin.dlibtest");
 
