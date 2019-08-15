@@ -57,6 +57,8 @@ public class SensorService extends Service implements EmpaDataDelegate, EmpaStat
 
     private float Bvp=0,Gsr=0,Ibi=0,Temp=0;
 
+    private float oBvp=0,oGsr=0,oIbi=0,oTemp=0;
+
     private String Bvp1,Gsr1,Ibi1,Temp1;
 
     private static final String EMPATICA_API_KEY = "39eea0ea609b400ea4785c8f2e0a33f8"; // TODO insert your API Key here
@@ -164,18 +166,66 @@ public class SensorService extends Service implements EmpaDataDelegate, EmpaStat
                 Log.i("in timer", "in timer ++++  "+ (counter++));
                 //sendWorkPostRequest2();
 
-                JSONObject jsonBody = new JSONObject();
-                Log.e("event","sending event");
-                try {
-                    jsonBody.put("event", "onEmpaticaE4_BvpChange");
-                    jsonBody.put("value", "hello");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                if(oBvp != Bvp){
+                    oBvp = Bvp;
+                    JSONObject jsonBody = new JSONObject();
+                    Log.e("event","sending event");
+                    try {
+                        jsonBody.put("event", "onEmpaticaE4_BvpChange");
+                        jsonBody.put("value", "hello "+Bvp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    String requestBody = jsonBody.toString();
+                    Client.webSocketClient.send(requestBody);
                 }
 
-                String requestBody = jsonBody.toString();
-                Client.webSocketClient.send(requestBody);
+                if(oTemp != Temp){
+                    oTemp = Temp;
+                    JSONObject jsonBody = new JSONObject();
+                    Log.e("event","sending event");
+                    try {
+                        jsonBody.put("event", "onEmpaticaE4_TemperatureChange");
+                        jsonBody.put("value", "hello "+Temp);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
+                    String requestBody = jsonBody.toString();
+                    Client.webSocketClient.send(requestBody);
+                }
+
+                if(oIbi != Ibi){
+                    oIbi = Ibi;
+                    JSONObject jsonBody = new JSONObject();
+                    Log.e("event","sending event");
+                    try {
+                        jsonBody.put("event", "onEmpaticaE4_IbiChange");
+                        jsonBody.put("value", "hello "+Ibi);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    String requestBody = jsonBody.toString();
+                    Client.webSocketClient.send(requestBody);
+                }
+
+                if(oGsr != Gsr){
+                    oGsr = Gsr;
+                    JSONObject jsonBody = new JSONObject();
+                    Log.e("event","sending event");
+                    try {
+                        jsonBody.put("event", "onEmpaticaE4_GsrChange");
+                        jsonBody.put("value", "hello "+Gsr);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    String requestBody = jsonBody.toString();
+                    Client.webSocketClient.send(requestBody);
+                }
                 updateLabel(Bvp, Gsr, Ibi, Temp, Bvp1, Gsr1, Ibi1, Temp1);
             }
         };
