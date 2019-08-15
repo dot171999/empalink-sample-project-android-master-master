@@ -35,7 +35,7 @@ public class Client implements Runnable {
     }
 
     void gg() throws Exception {
-        URI uri=new URI(url);
+        URI uri=new URI("ws://"+url+":3000");
         Log.e("Client URL" , url +"#############################################");
         webSocketClient=new WebSocketClient(uri,new Draft_17()) {
             @Override
