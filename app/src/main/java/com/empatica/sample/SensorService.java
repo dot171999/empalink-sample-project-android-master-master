@@ -167,7 +167,7 @@ public class SensorService extends Service implements EmpaDataDelegate, EmpaStat
                 JSONObject jsonBody = new JSONObject();
                 Log.e("event","sending event");
                 try {
-                    jsonBody.put("event", "BlinkDetection-Sebastian");
+                    jsonBody.put("event", "onEmpaticaE4_BvpChange");
                     jsonBody.put("value", "hello");
                 } catch (JSONException e) {
                     e.printStackTrace();
